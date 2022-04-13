@@ -7,19 +7,32 @@ import {
   Text,
   TextInput,
 } from "react-native";
+import { Touchable } from "react-native-web";
 
-export default function SearchDropDown(props, navigation) {
+export default function SearchDropDown(props, { navigation }) {
   const { dataSource } = props;
+  const { newData } = props;
 
+  console.log(" datasource", dataSource);
   return (
-    <TouchableOpacity onPress={props.onPress} style={styles.container}>
+    <View onPress={props.onPress} style={styles.container}>
       <View style={styles.subContainer}>
         {dataSource.length ? (
           dataSource.map((item) => {
+            console.log("item", item.name);
             return (
-              <View style={styles.itemView}>
-                <Text style={styles.itemText}>{item}</Text>
-              </View>
+              <TouchableOpacity
+                style={{ backgroundColor: "pink" }}
+                onPress={() =>
+                  props.navigation.navigate("CharacterProfileScreen", {
+                    data: item,
+                  })
+                }
+              >
+                <View style={styles.itemView}>
+                  <Text style={styles.itemText}>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
             );
           })
         ) : (
@@ -28,7 +41,7 @@ export default function SearchDropDown(props, navigation) {
           </View>
         )}
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -39,6 +52,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    backgroundColor: "pink",
+    zIndex: 100,
   },
   subContainer: {
     // backgroundColor: "#84DCC6",

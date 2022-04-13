@@ -16,19 +16,23 @@ const WIDTH = Dimensions.get("window").width;
 
 export default function HomeScreen({ navigation, props }) {
   const [data, setData] = useState();
-  // const [dataSource, setDataSource] = useState();
 
   const [dataSource, setDataSource] = useState([]);
 
+  const [newData, setNewData] = useState();
+
   const [filtered, setFiltered] = useState(dataSource);
+
   const [searching, setSearching] = useState(false);
   const onSearch = (text) => {
+    console.log("dataso", dataSource);
     if (text) {
       setSearching(true);
       const temp = text.toLowerCase();
 
-      const tempList = dataSource.filter((item) => {
-        if (item.toLowerCase().match(temp)) return item;
+      const tempList = dataSource?.filter((item) => {
+        console.log("item", item);
+        if (item.name.toLowerCase().match(temp)) return item;
       });
       setFiltered(tempList);
     } else {
@@ -42,28 +46,15 @@ export default function HomeScreen({ navigation, props }) {
       .get("https://rickandmortyapi.com/api/character")
       .then(function (response) {
         setData(response.data);
-        // setDataSource(response.data.results);
-        // console.log(response.data);
+
         for (let item of response.data.results) {
-          dataSource.push(item.name);
+          dataSource.push(item);
         }
-        // console.log("dataaSource", dataSource);
+        // console.log("dataaSource", daadsdsftaSource);
       })
       .catch(function (error) {
         console.log(error);
       });
-  };
-
-  const selectSearchItem = ({ item }) => {
-    setSearching(false);
-    // console.log("item -", item);
-    data?.results.filter((k) => {
-      if (k.name.toLowerCase().match(item.toLowerCase())) {
-        navigation.navigate("CharacterProfileScreen", {
-          data: k,
-        });
-      }
-    });
   };
 
   useEffect(() => {
@@ -76,6 +67,7 @@ export default function HomeScreen({ navigation, props }) {
         <TouchableOpacity
           style={styles.flatListTouchStyle}
           onPress={() => {
+            // console.log("data", data.results[index]);
             navigation.navigate("CharacterProfileScreen", {
               data: data?.results[index],
             });
@@ -116,14 +108,17 @@ export default function HomeScreen({ navigation, props }) {
         {searching && (
           <SearchDropDown
             onPress={(item, index) => {
-              navigation.navigate("CharacterProfileScreen", {
-                // item: item
-                data: data?.results[index],
-              });
+              console.log("item", item);
+
+              // // navigation.navigate("CharacterProfileScreen", {
+              // //   // item: item
+              // //   data: data?.results[index],
+              // });
               // console.log("asd", item);
               // console.log("index", index);
             }}
             dataSource={filtered}
+            navigation={navigation}
           />
         )}
 
@@ -156,6 +151,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingHorizontal: 10,
     marginTop: 40,
+    zIndex: 200,
   },
 
   flatListTouchStyle: {
@@ -164,7 +160,7 @@ const styles = StyleSheet.create({
     width: WIDTH - 30,
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "pink",
+    backgroundColor: "#cbc6c3",
     borderWidth: 0.51,
     borderRadius: 3,
     borderColor: "#000",

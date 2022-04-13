@@ -26,6 +26,7 @@ export default function CharacterProfileScreen({ route }) {
   const data = route.params.data;
 
   const episodeData = data.episode;
+  let asd = Array.from(episodeData);
 
   const [liked, setLiked] = useState("like2");
   const [disliked, setDisliked] = useState("dislike2");
@@ -50,7 +51,7 @@ export default function CharacterProfileScreen({ route }) {
   //   });
   // });
 
-  // console.log("episodedata", episodeData);
+  // console.log("episodedata", asd);
   // console.log("newtext", newText);
 
   // console.log("data12: ", route.params.data);
